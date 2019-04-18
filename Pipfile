@@ -6,7 +6,12 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-tensorflow-v2-examples = {editable = true,path = "."}
+tensorflow-v2-examples = {path = ".",editable = true}
+fastparquet = "*"
+pandas = "*"
+matplotlib = "*"
+seaborn = "*"
+tarfile = "*"
 
 [requires]
 python_version = "3.5"
