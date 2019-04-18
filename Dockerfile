@@ -1,5 +1,7 @@
-#FROM tensorflow/tensorflow:2.0.0a0-py3-jupyter AS base
 FROM tensorflow/tensorflow:2.0.0a0-gpu-py3-jupyter AS base
+
+#If you need a CPU-only version, us this:
+#FROM tensorflow/tensorflow:2.0.0a0-py3-jupyter AS base
 
 ARG DEV_tensorflow_v2_examples
 ARG CI_USER_TOKEN
@@ -24,11 +26,10 @@ RUN pip install pipenv
 
 WORKDIR /tf
 
-#COPY Pipfile .
-#COPY Pipfile.lock .
+COPY Pipfile .
+COPY Pipfile.lock .
 COPY setup.py .
 COPY src/tensorflow_v2_examples/__init__.py src/tensorflow_v2_examples/__init__.py
 
-#RUN pipenv install --system --deploy --ignore-pipfile --dev
-
-#RUN apt-get install python-gdcm -y
+RUN pipenv install --system --deploy --ignore-pipfile --dev
+RUN apt-get install python-gdcm -y

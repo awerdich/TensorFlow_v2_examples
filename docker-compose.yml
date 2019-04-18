@@ -2,9 +2,6 @@ version: '3'
 services:
   tf:
     environment:
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - CSCI_SALT=${CSCI_SALT}
       - PYTHONPATH=.
     build:
       context: .
