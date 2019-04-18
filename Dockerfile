@@ -1,5 +1,5 @@
-FROM tensorflow/tensorflow:2.0.0a0-py3-jupyter AS base
-
+#FROM tensorflow/tensorflow:2.0.0a0-py3-jupyter AS base
+FROM tensorflow/tensorflow:2.0.0a0-gpu-py3-jupyter AS base
 
 ARG DEV_tensorflow_v2_examples
 ARG CI_USER_TOKEN
