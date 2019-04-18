@@ -4,13 +4,9 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-pytest = "*"
-pytest-cov = "*"
 
 [packages]
-awscli = "*"
-tensorflow_v2_examples = {editable = true,path = "."}
-pset-utils = {editable = true,git = "https://github.com/csci-e-29/2019sp-pset-utils-awerdich"}
+tensorflow-v2-examples = {editable = true,path = "."}
 
 [requires]
 python_version = "3.7"

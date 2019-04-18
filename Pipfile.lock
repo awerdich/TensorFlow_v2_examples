@@ -1,0 +1,25 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "0e17cbef8bbb7c1085ac47d99f2634634a9edaa117db079309048465e5f02db3"
+        },
+        "pipfile-spec": 6,
+        "requires": {
+            "python_version": "3.7"
+        },
+        "sources": [
+            {
+                "name": "pypi",
+                "url": "https://pypi.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "tensorflow-v2-examples": {
+            "editable": true,
+            "path": "."
+        }
+    },
+    "develop": {}
+}

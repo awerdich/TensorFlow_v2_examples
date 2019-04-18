@@ -1,7 +1,9 @@
-FROM python:3.7 AS base
+FROM tensorflow/tensorflow:2.0.0a0-py3-jupyter AS base
+
 
 ARG DEV_tensorflow_v2_examples
 ARG CI_USER_TOKEN
+ARG CURRENT_UID
 RUN echo "machine github.com\n  login $CI_USER_TOKEN\n" >~/.netrc
 
 ENV \
@@ -17,11 +19,16 @@ ENV \
     PIPENV_COLORBLIND=true \
     PIPENV_NOSPIN=true
 
+RUN apt-get install git -y
 RUN pip install pipenv
 
-WORKDIR /app
-COPY Pipfile .
-COPY Pipfile.lock .
+WORKDIR /tf
+
+#COPY Pipfile .
+#COPY Pipfile.lock .
 COPY setup.py .
 COPY src/tensorflow_v2_examples/__init__.py src/tensorflow_v2_examples/__init__.py
-RUN pipenv install --system --deploy --ignore-pipfile --dev
+
+#RUN pipenv install --system --deploy --ignore-pipfile --dev
+
+#RUN apt-get install python-gdcm -y
