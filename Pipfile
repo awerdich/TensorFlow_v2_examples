@@ -7,11 +7,9 @@ verify_ssl = true
 
 [packages]
 tensorflow-v2-examples = {path = ".",editable = true}
-fastparquet = "*"
+numpy = "*"
 pandas = "*"
 matplotlib = "*"
-seaborn = "*"
-tarfile = "*"
 
 [requires]
 python_version = "3.5"

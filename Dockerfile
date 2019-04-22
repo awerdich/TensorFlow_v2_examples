@@ -23,13 +23,15 @@ ENV \
 
 RUN apt-get install git -y
 RUN pip install pipenv
+RUN apt-get install python-gdcm -y
+RUN apt-get install tcl-dev tk-dev python3-tk -y 
 
 WORKDIR /tf
 
 COPY Pipfile .
 COPY Pipfile.lock .
+
 COPY setup.py .
 COPY src/tensorflow_v2_examples/__init__.py src/tensorflow_v2_examples/__init__.py
 
 RUN pipenv install --system --deploy --ignore-pipfile --dev
-RUN apt-get install python-gdcm -y
