@@ -21,10 +21,14 @@ ENV \
     PIPENV_COLORBLIND=true \
     PIPENV_NOSPIN=true
 
+RUN apt-get update
 RUN apt-get install git -y
-RUN pip install pipenv
 RUN apt-get install python-gdcm -y
 RUN apt-get install tcl-dev tk-dev python3-tk -y 
+RUN apt-get install x11-xserver-utils -y
+RUN apt-get install -qqy x11-apps -y
+
+RUN pip install pipenv
 
 WORKDIR /tf
 
@@ -33,5 +37,6 @@ COPY Pipfile.lock .
 
 COPY setup.py .
 COPY src/tensorflow_v2_examples/__init__.py src/tensorflow_v2_examples/__init__.py
+COPY matplotlibrc ./.config/matplotlib/matplotlibrc
 
 RUN pipenv install --system --deploy --ignore-pipfile --dev

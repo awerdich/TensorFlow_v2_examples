@@ -3,6 +3,8 @@ services:
   tf:
     environment:
       - PYTHONPATH=.
+      - DISPLAY=$DISPLAY
+      - QT_X11_NO_MITSHM=1
     build:
       context: .
       args:
@@ -12,6 +14,7 @@ services:
       - '8157:8888'
       - '6009:6666'
     volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix #Static - needed to display atom on your host
       - .:/tf
       - /home/andy/data/:/tf/data
       - ./src/notebooks/:/tf/notebooks
