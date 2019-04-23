@@ -3,6 +3,7 @@ import os
 import tarfile
 import numpy as np
 import pickle
+import string
 from six.moves.urllib.request import urlretrieve
 
 import matplotlib
@@ -16,6 +17,8 @@ pixel_depth = 255.0  # Number of levels per pixel.
 url = 'https://commondatastorage.googleapis.com/books1000/'
 data_root = '/tf/data/notMNIST'
 last_percent_reported = None
+# Translate numbers into letters
+letter_dict = {n: ch for n, ch in enumerate(string.ascii_uppercase) if n<10}
 
 #%% Download the data archives
 
@@ -210,11 +213,91 @@ valid_dataset, valid_labels, train_dataset, train_labels = merge_datasets(
 test_size = 15000
 _, _, test_dataset, test_labels = merge_datasets(test_datasets, test_size)
 
+
+#%% Remove empty images
+
+def remove_empty(image_data, label_data):
+    ''' Input: image_data [sample, rows, columns]
+        label_data [label]
+        Output: image_data_clean, label_data_clean, empty_idx'''
+
+    empty_idx = [idx for idx in range(len(image_data)) if
+                 (np.max(image_data[idx]) - np.min(image_data[idx])) < 0.5]
+
+    not_empty_idx = [idx for idx in range(len(image_data)) if
+                     idx not in (empty_idx)]
+
+    if not not_empty_idx:
+
+        print('All images are empty.')
+        image_data_clean = image_data
+        label_data_clean = label_data
+
+    else:
+
+        image_data_clean = np.stack([image_data[idx] for idx in not_empty_idx])
+        label_data_clean = np.stack([label_data[idx] for idx in not_empty_idx])
+
+    return image_data_clean, label_data_clean, empty_idx
+
+# Remove empty images
+train_dataset, train_labels, empty_train = remove_empty(train_dataset, train_labels)
+print('Removed', len(empty_train), 'empty images from training set.')
+test_dataset, test_labels, empty_test = remove_empty(test_dataset, test_labels)
+print('Removed', len(empty_test), 'empty images from test set.')
+valid_dataset, valid_labels, empty_valid = remove_empty(valid_dataset, valid_labels)
+print('Removed', len(empty_valid), 'empty images from validation set.')
+
+print('Training:', train_dataset.shape, train_labels.shape)
+print('Validation:', valid_dataset.shape, valid_labels.shape)
+print('Testing:', test_dataset.shape, test_labels.shape)
+
+#%% Shuffle the data
+
+def shuffle_data(dataset, labels):
+  permutation = np.random.permutation(labels.shape[0])
+  shuffled_dataset = dataset[permutation,:,:]
+  shuffled_labels = labels[permutation]
+  return shuffled_dataset, shuffled_labels
+
+# Randomize the data
+train_dataset, train_labels = shuffle_data(train_dataset, train_labels)
+test_dataset, test_labels = shuffle_data(test_dataset, test_labels)
+valid_dataset, valid_labels = shuffle_data(valid_dataset, valid_labels)
+
+#%% Save the data in one pickle file
+
+pickle_file = os.path.join(data_root, 'notMNIST.pickle')
+
+try:
+  f = open(pickle_file, 'wb')
+  save = {
+    'train_dataset': train_dataset,
+    'train_labels': train_labels,
+    'valid_dataset': valid_dataset,
+    'valid_labels': valid_labels,
+    'test_dataset': test_dataset,
+    'test_labels': test_labels,
+    }
+  pickle.dump(save, f, pickle.HIGHEST_PROTOCOL)
+  f.close()
+except Exception as e:
+  print('Unable to save data to', pickle_file, ':', e)
+  raise
+
+statinfo = os.stat(pickle_file)
+print('Compressed pickle size:{}'.format(np.round(statinfo.st_size/1e6)), 'MB')
+
 #%% plot a few random images from the training set with label
-n = 3
-fig, ax = plt.subplots(nrows = 1, ncols = n, figsize = (5, 5))
+n = 6
+fig, ax = plt.subplots(nrows = 1, ncols = n, figsize = (2*n, 2))
 train_idx = np.random.randint(0, train_size, size = n)
 
 
-plt.imshow(train_dataset[10])
+for i, ax1 in enumerate(ax):
+    ax1.imshow(train_dataset[train_idx[i]], cmap = 'gray')
+    ax1.grid(False)
+    ax1.axis('off')
+    ax1.set_title(letter_dict[train_labels[train_idx[i]]])
+
 plt.show()
