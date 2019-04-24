@@ -8,7 +8,7 @@ matplotlib.use('TKAgg')
 from matplotlib import pyplot as plt
 
 import tensorflow as tf
-from tensorflow_v2_examples.notMNIST_TFR_provider import Dset, DatasetProvider
+from tensorflow_v2_examples.notMNIST_TFR_provider import Dset
 
 print('Tensorflow version:', tf.__version__)
 
@@ -41,9 +41,3 @@ file_list = [file for file in os.listdir(data_root) if os.path.splitext(file)[-1
 for file in file_list:
     statinfo = os.stat(os.path.join(data_root, file))
     print('TFRecords file {} size is {} MB'.format(file, np.round(statinfo.st_size/1e6)))
-
-#%% pull out some data
-tfrfile = os.path.join(data_root, 'test.tfrecords')
-dataset_provider = DatasetProvider([tfrfile], output_height=28, output_width=28)
-
-dataset = dataset_provider.make_batch(batch_size = 16, shuffle = True)

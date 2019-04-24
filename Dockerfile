@@ -28,6 +28,8 @@ RUN apt-get install tcl-dev tk-dev python3-tk -y
 RUN apt-get install x11-xserver-utils -y
 RUN apt-get install -qqy x11-apps -y
 
+# We still need to run "xhost +" on the local machine to allow network access to the X11 server
+
 RUN pip install pipenv
 
 WORKDIR /tf
