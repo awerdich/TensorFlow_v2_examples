@@ -11,8 +11,8 @@ services:
         - CI_USER_TOKEN=${CI_USER_TOKEN}
         - DEV_tensorflow_v2_examples=1
     ports:
-      - '8157:8888'
-      - '6009:6666'
+      - "8157:8888"
+      - "6009:6006"
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix #Static - needed to display atom on your host
       - .:/tf
