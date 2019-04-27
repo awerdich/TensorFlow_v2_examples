@@ -1,7 +1,9 @@
-FROM tensorflow/tensorflow:2.0.0a0-gpu-py3-jupyter AS base
+# This is the powerful GPU version. You need a GPU with NVIDIA drivers to run this image.
+#FROM tensorflow/tensorflow:2.0.0a0-gpu-py3-jupyter AS base
 
-#If you need a CPU-only version, us this:
-#FROM tensorflow/tensorflow:2.0.0a0-py3-jupyter AS base
+# If you need a CPU-only version, use this:
+FROM tensorflow/tensorflow:2.0.0a0-py3-jupyter AS base
+
 
 ARG DEV_tensorflow_v2_examples
 ARG CI_USER_TOKEN
@@ -22,6 +24,7 @@ ENV \
     PIPENV_NOSPIN=true
 
 RUN apt-get update
+RUN apt-get upgrade -y
 RUN apt-get install git -y
 RUN apt-get install python-gdcm -y
 RUN apt-get install tcl-dev tk-dev python3-tk -y 
@@ -33,6 +36,9 @@ RUN apt-get install -qqy x11-apps -y
 RUN pip install pipenv
 
 WORKDIR /tf
+
+COPY ./tensorflow-2.0.0a0-cp35-cp35m-linux_x86_64.whl .
+RUN pip install --force-reinstall ./tensorflow-2.0.0a0-cp35-cp35m-linux_x86_64.whl
 
 COPY Pipfile .
 COPY Pipfile.lock .
