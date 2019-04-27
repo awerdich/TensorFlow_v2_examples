@@ -7,6 +7,9 @@ verify_ssl = true
 
 [packages]
 tensorflow-v2-examples = {editable = true,path = "."}
+matplotlib = "*"
+pandas = "*"
+luigi = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.5"
