@@ -92,10 +92,11 @@ class Dset:
 class DatasetProvider:
     ''' Creates a dataset from a list of .tfrecords files.'''
     
-    def __init__(self, tfr_file_list, output_height = 28, output_width = 28):
+    def __init__(self, tfr_file_list, output_height = 28, output_width = 28, n_epochs = 1):
         self.tfr_file_list = tfr_file_list
         self.output_height = output_height
         self.output_width = output_width
+        self.n_epochs = n_epochs
         
     def _parse(self, serialized):
         
@@ -125,10 +126,12 @@ class DatasetProvider:
         
         # Linearly scale image to have zero mean and unit norm
         image = tf.image.per_image_standardization(image)
+        image = tf.reshape(image, shape = (self.output_height, self.output_width, 1))
         
         label = example['label']
+        one_hot_label = tf.one_hot(label, depth=10)
     
-        return image, label
+        return image, one_hot_label
     
     def make_batch(self, batch_size, shuffle):
         
@@ -143,6 +146,6 @@ class DatasetProvider:
         dataset = dataset.map(self._parse)
         
         # Batch it up
-        dataset = dataset.repeat().batch(batch_size)
+        dataset = dataset.batch(batch_size)
         
-        return dataset
+        return dataset.repeat(self.n_epochs)
