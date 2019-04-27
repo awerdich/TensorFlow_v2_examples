@@ -289,15 +289,15 @@ statinfo = os.stat(pickle_file)
 print('Compressed pickle size:{}'.format(np.round(statinfo.st_size/1e6)), 'MB')
 
 #%% plot a few random images from the training set with label
-n = 6
-fig, ax = plt.subplots(nrows = 1, ncols = n, figsize = (2*n, 2))
-train_idx = np.random.randint(0, train_size, size = n)
+#n = 6
+#fig, ax = plt.subplots(nrows = 1, ncols = n, figsize = (2*n, 2))
+#train_idx = np.random.randint(0, train_size, size = n)
 
 
-for i, ax1 in enumerate(ax):
-    ax1.imshow(train_dataset[train_idx[i]], cmap = 'gray')
-    ax1.grid(False)
-    ax1.axis('off')
-    ax1.set_title(letter_dict[train_labels[train_idx[i]]])
+#for i, ax1 in enumerate(ax):
+#    ax1.imshow(train_dataset[train_idx[i]], cmap = 'gray')
+#    ax1.grid(False)
+#    ax1.axis('off')
+#    ax1.set_title(letter_dict[train_labels[train_idx[i]]])
 
-plt.show()
+#plt.show()
