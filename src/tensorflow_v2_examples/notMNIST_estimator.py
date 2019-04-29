@@ -6,6 +6,11 @@ import os
 import glob
 import numpy as np
 import tensorflow as tf
+from sklearn.metrics import accuracy_score
+
+#tf.enable_eager_execution()
+#tf.logging.set_verbosity(tf.logging.INFO)
+
 import matplotlib
 import string
 
@@ -116,7 +121,6 @@ for r in range(n_repeats):
 
     # Try a logging hook
 
-
     model_fn.train(train_input_fn, steps = train_steps_per_repeat)
 
     print('Running evaluation')
@@ -125,6 +129,17 @@ for r in range(n_repeats):
 
 #%% Evaluation
 
+# Predict on the test set (use batch size of 1)
+test_input_fn = make_input_fn([test_file], n_epochs = 1, shuffle = False, batch_size = 1)
+pgen = model_fn.predict(test_input_fn, checkpoint_path = None)
+predictions = [np.argmax(p['dense']) for p in pgen]
 
+# True labels and accuracy
 
+labels = []
+for _, label_batch in test_input_fn():
+    labels.append(np.argmax(np.squeeze(label_batch)))
 
+#%% Calculate accuracy score
+score = accuracy_score(labels, predictions)
+print('Accuracy score:', score)

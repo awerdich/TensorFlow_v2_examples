@@ -1,8 +1,8 @@
 # This is the powerful GPU version. You need a GPU with NVIDIA drivers to run this image.
-#FROM tensorflow/tensorflow:2.0.0a0-gpu-py3-jupyter AS base
+FROM tensorflow/tensorflow:2.0.0a0-gpu-py3-jupyter AS base
 
 # If you need a CPU-only version, use this:
-FROM tensorflow/tensorflow:2.0.0a0-py3-jupyter AS base
+#FROM tensorflow/tensorflow:2.0.0a0-py3-jupyter AS base
 
 ARG DEV_tensorflow_v2_examples
 ARG CI_USER_TOKEN
@@ -36,8 +36,8 @@ RUN pip install pipenv
 
 WORKDIR /tf
 
-COPY ./tensorflow-2.0.0a0-cp35-cp35m-linux_x86_64.whl .
-RUN pip install --force-reinstall ./tensorflow-2.0.0a0-cp35-cp35m-linux_x86_64.whl
+#COPY ./tensorflow-2.0.0a0-cp35-cp35m-linux_x86_64.whl .
+#RUN pip install --force-reinstall ./tensorflow-2.0.0a0-cp35-cp35m-linux_x86_64.whl
 
 COPY Pipfile .
 COPY Pipfile.lock .

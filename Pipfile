@@ -10,6 +10,8 @@ tensorflow-v2-examples = {editable = true,path = "."}
 matplotlib = "*"
 pandas = "*"
 luigi = "*"
+sklearn = "*"
+numba = "*"
 
 [requires]
 python_version = "3.5"
