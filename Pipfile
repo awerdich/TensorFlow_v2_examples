@@ -6,12 +6,14 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-tensorflow-v2-examples = {editable = true,path = "."}
+tensorflow-v2-examples = {path = ".",editable = true}
 matplotlib = "*"
 pandas = "*"
 luigi = "*"
 sklearn = "*"
 numba = "*"
+awscli = "*"
+boto3 = "*"
 
 [requires]
 python_version = "3.5"
