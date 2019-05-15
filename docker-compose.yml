@@ -2,8 +2,7 @@ version: '3'
 services:
   tf:
     environment:
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - TFHUB_CACHE_DIR=/tf/data/tfhub
       - PYTHONPATH=.
       - DISPLAY=$DISPLAY
       - QT_X11_NO_MITSHM=1

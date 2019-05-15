@@ -29,6 +29,7 @@ RUN apt-get install python-gdcm -y
 RUN apt-get install tcl-dev tk-dev python3-tk -y 
 RUN apt-get install x11-xserver-utils -y
 RUN apt-get install -qqy x11-apps -y
+RUN pip install -U pip
 
 # We still need to run "xhost +" on the local machine to allow network access to the X11 server
 
@@ -38,6 +39,10 @@ WORKDIR /tf
 
 #COPY ./tensorflow-2.0.0a0-cp35-cp35m-linux_x86_64.whl .
 #RUN pip install --force-reinstall ./tensorflow-2.0.0a0-cp35-cp35m-linux_x86_64.whl
+
+# For the examples we need the latest version
+RUN pip install --force-reinstall -q tf-nightly-gpu-2.0-preview
+
 
 COPY Pipfile .
 COPY Pipfile.lock .
